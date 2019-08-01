@@ -84,7 +84,7 @@
     //If the key pressed is equal to one of the letters in the array, then display the letter. USE ANOTHER FOR LOOP.
     
     //If the user's choice fits into one of the array values, display the letters in their position
-    //IF THE letter that the user chose is in the array, then run this
+    //IF THE letter that the user chose is in the array, then run this, if the letter is NOT in the array, then run the else:
     if (letterArray.includes(userChoice)) {
             for (i=0; i < letterArray.length; i++){
 
@@ -95,8 +95,13 @@
         }
     }else {
         guessesRemaining--;
+        var wrongLetterDiv = document.createElement("div");
+        wrongLetterDiv.textContent = userChoice;
+        lettersGuessed.appendChild(wrongLetterDiv);
+
     }
     guessesRemainingText.textContent = "# of Guesses Remaining: " + guessesRemaining;
+
 }   
 }
 
