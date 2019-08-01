@@ -13,7 +13,7 @@
 
     //Create an array of words
 
-    var gameWords = ['FOOTBALL','REAL MADRID', 'CHAMPIONS LEAGUE', 'BAYERN MUNICH', 'ARSENAL'];
+    var gameWords = ['football','real madrid', 'champions league', 'bayern munich', 'arsenal'];
     console.log(gameWords);
 
     //Grab the empty div in which we want to add our tick marks
@@ -57,34 +57,36 @@
                 gameTickDiv.appendChild(newTick);
    
                 newTick.setAttribute("class","set-inline");
+                newTick.setAttribute("id", "tick-id" + [i]);
+
                 }
         }
     
-    //Once the word is set up, the user can START PLAYING:
+    //ONCE THE WORD IS SET UP, THE PLAYER CAN START CHOOSING LETTERS
 
     //We record the key that the user pressed
         document.onkeyup = function(gamePlay) {
+        
             var userChoice = gamePlay.key;
             console.log(userChoice);
 
-    //If the key pressed is equal to one of the letters in the array, the display the letter. USE ANOTHER FOR LOOP.
+    //If the key pressed is equal to one of the letters in the array, then display the letter. USE ANOTHER FOR LOOP.
     
             for (i=0; i < letterArray.length; i++){
 
-                if (userChoice === letterArray[i]){
+                if (userChoice === letterArray[i]) {
 
-                newTick.textContent = userChoice 
-            }
-    //!! Create variables for score
-            else {
+                document.getElementById("tick-id" + [i]).innerHTML = userChoice;
 
+            } else{
+                //If the user guesses wrong, the number of guesses remaning DECREASES, and the letter guessed is displayed
                 wordsGuessed++;
-                guessesReminaing++
+                guessesReminaing++;
 
             }
-            }
-        };
-    }
+        }
+    };
+};
 
 
 //When the user presses a key
