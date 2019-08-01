@@ -25,8 +25,27 @@
     var letterArray = compChoice.split('');
     console.log(letterArray);
 
-    //Create a function that, for each of these new variables, will create a <p> element with either "_" for letters or "" for a space
+    var gameTickDiv = document.getElementById("game-letters")
 
+    //Create a function that, for each of these new variables, will create a <p> element with either "_" for letters or "" for a space
+ 
+
+        
+        letterArray.forEach(function(setGameTicks) {
+
+            var newTick = document.createElement("div");
+             newTick.textContent = "_";
+            gameTickDiv.appendChild(newTick);
+
+            newTick.setAttribute("class","set-inline")
+
+        })
+
+
+
+    
+    
+        
 
     
 
