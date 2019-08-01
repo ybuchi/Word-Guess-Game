@@ -31,15 +31,29 @@
  
 
         
-        letterArray.forEach(function(setGameTicks) {
+        for (i=0; i < letterArray.length; i++) {
+
+            if (letterArray[i] === " ") {
 
             var newTick = document.createElement("div");
-             newTick.textContent = "_";
+             newTick.textContent = " ";
             gameTickDiv.appendChild(newTick);
 
             newTick.setAttribute("class","set-inline")
 
-        })
+            } 
+           
+            
+            else {
+
+                var newTick = document.createElement("div");
+                newTick.textContent = "_";
+                gameTickDiv.appendChild(newTick);
+   
+                newTick.setAttribute("class","set-inline")
+                }
+
+        }
 
 
 
