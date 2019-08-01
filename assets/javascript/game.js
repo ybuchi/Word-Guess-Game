@@ -102,6 +102,9 @@
     }
     guessesRemainingText.textContent = "# of Guesses Remaining: " + guessesRemaining;
 
+    //If guesses = 0; you loose
+    //If word is guessed, move to the next one
+
 }   
 }
 
