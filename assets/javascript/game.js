@@ -3,34 +3,40 @@
 ///////GAME SETUP
 
 //INCLUDE THIS IN A FUNCTION THAT WILL BE CALLED UPON WHEN THE USER HITS A KEY
+//The game fires when the user presses any key:
+
+
 
 //The Computer needs to choose a word and associate an image with it
+////////////
+////////////VARIABLE DECLARATIONS
 
     //Create an array of words
 
     var gameWords = ['FOOTBALL','REAL MADRID', 'CHAMPIONS LEAGUE', 'BAYERN MUNICH', 'ARSENAL'];
     console.log(gameWords);
 
-    //Make computer choose one of these words at random
-
-    var compChoice = gameWords[Math.floor(Math.random() * gameWords.length)];
-    console.log(compChoice);
-
-
-//The page then needs to display the correct amount of "_" to display on the screen.
-
-    //The computer needs to count the number of characters (use str.length)
-
-    //The computer slices the characters of the word (using str.slice(start,end)) and stores them into an array. (see https://www.journaldev.com/794/string-char-array-java)
-    var letterArray = compChoice.split('');
-    console.log(letterArray);
-
+    //Grab the empty div in which we want to add our tick marks
     var gameTickDiv = document.getElementById("game-letters")
 
-    //Create a function that, for each of these new variables, will create a <p> element with either "_" for letters or "" for a space
- 
+    //Create variables for the scores we want to keep track of
+    var wordsGuessed = 0;
+    var guessesReminaing = 0;
 
-        
+
+/////////////////
+///////////////// GAME START : When the user clicks on a key, the game sets up, and then starts
+    document.onkeyup = function(event) {
+
+    //AFTER INITIAL CLICK< THE GAME IS SET UP
+        //The Computer makes a choice
+        var compChoice = gameWords[Math.floor(Math.random() * gameWords.length)];
+        console.log(compChoice);
+
+        //The computer slices the word into an array of letters
+        var letterArray = compChoice.split('');
+
+        //Array of letters is displayed as "_" in the document
         for (i=0; i < letterArray.length; i++) {
 
             if (letterArray[i] === " ") {
@@ -39,7 +45,7 @@
              newTick.textContent = " ";
             gameTickDiv.appendChild(newTick);
 
-            newTick.setAttribute("class","set-inline")
+            newTick.setAttribute("class","set-inline");
 
             } 
            
@@ -50,23 +56,35 @@
                 newTick.textContent = "_";
                 gameTickDiv.appendChild(newTick);
    
-                newTick.setAttribute("class","set-inline")
+                newTick.setAttribute("class","set-inline");
                 }
-
         }
-
-
-
     
+    //Once the word is set up, the user can START PLAYING:
+
+    //We record the key that the user pressed
+        document.onkeyup = function(gamePlay) {
+            var userChoice = gamePlay.key;
+            console.log(userChoice);
+
+    //If the key pressed is equal to one of the letters in the array, the display the letter. USE ANOTHER FOR LOOP.
     
-        
+            for (i=0; i < letterArray.length; i++){
 
-    
+                if (userChoice === letterArray[i]){
 
-////GAMEPLAY
+                newTick.textContent = userChoice 
+            }
+    //!! Create variables for score
+            else {
 
-// The user presses a key to start the game
+                wordsGuessed++;
+                guessesReminaing++
 
-// When the user presses a letter key to guess:
+            }
+            }
+        };
+    }
 
-    //
+
+//When the user presses a key
