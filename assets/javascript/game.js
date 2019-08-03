@@ -28,7 +28,46 @@
     var guessesRemainingText = document.getElementById("guesses-remaining-text");
     var lettersGuessed = document.getElementById("letters-guessed");
 
+    function newWord() {
+
+         //The Computer makes a choice
+         var compChoice = gameWords[Math.floor(Math.random() * gameWords.length)];
+         console.log(compChoice);
+ 
+         //The computer slices the word into an array of letters
+         var letterArray = compChoice.split('');
+ 
+         //Array of letters is displayed as "_" in the document
+         for (i=0; i < letterArray.length; i++) {
+ 
+             if (letterArray[i] === " ") {
+ 
+             var newTick = document.createElement("div");
+              newTick.textContent = " ";
+             gameTickDiv.appendChild(newTick);
+ 
+             newTick.setAttribute("class","set-inline");
+ 
+             } 
+            
+             
+             else {
+ 
+                 var newTick = document.createElement("div");
+                 newTick.textContent = "_";
+                 gameTickDiv.appendChild(newTick);
+    
+                 newTick.setAttribute("class","set-inline");
+                 newTick.setAttribute("id", "tick-id" + [i]);
+ 
+                 }
+             }
+
+
+    }
+
     //Create variables for the scores we want to keep track of
+
 
 
 
@@ -36,50 +75,53 @@
 
 /////////////////
 ///////////////// GAME START : When the user clicks on a key, the game sets up, and then starts
-    document.onkeyup = function(setWord) {
+    document.onkeyup = function(event) {
 
     //AFTER INITIAL CLICK< THE GAME IS SET UP, DECLARE VARIABLES
         //The scores are displayed
 
         wordsGuessedText.textContent = "# of Words Guessed: " + wordsGuessed;
         guessesRemainingText.textContent = "# of Guesses Remaining: " + guessesRemaining;
-        lettersGuessed.textContent = "Letters Guessed: " 
+        lettersGuessed.textContent = "Letters Guessed: " + lettersGuessed;
 
 
         //function chooseWord(){
-        //The Computer makes a choice
-        var compChoice = gameWords[Math.floor(Math.random() * gameWords.length)];
-        console.log(compChoice);
 
-        //The computer slices the word into an array of letters
-        var letterArray = compChoice.split('');
-
-        //Array of letters is displayed as "_" in the document
-        for (i=0; i < letterArray.length; i++) {
-
-            if (letterArray[i] === " ") {
-
-            var newTick = document.createElement("div");
-             newTick.textContent = " ";
-            gameTickDiv.appendChild(newTick);
-
-            newTick.setAttribute("class","set-inline");
-
-            } 
+                //The Computer makes a choice
+                var compChoice = gameWords[Math.floor(Math.random() * gameWords.length)];
+                console.log(compChoice);
+        
+                //The computer slices the word into an array of letters
+                var letterArray = compChoice.split('');
+        
+                //Array of letters is displayed as "_" in the document
+                for (i=0; i < letterArray.length; i++) {
+        
+                    if (letterArray[i] === " ") {
+        
+                    var newTick = document.createElement("div");
+                     newTick.textContent = " ";
+                    gameTickDiv.appendChild(newTick);
+        
+                    newTick.setAttribute("class","set-inline");
+        
+                    } 
+                   
+                    
+                    else {
+        
+                        var newTick = document.createElement("div");
+                        newTick.textContent = "_";
+                        gameTickDiv.appendChild(newTick);
            
-            
-            else {
+                        newTick.setAttribute("class","set-inline");
+                        newTick.setAttribute("id", "tick-id" + [i]);
+        
+                        }
+                    }
+    
 
-                var newTick = document.createElement("div");
-                newTick.textContent = "_";
-                gameTickDiv.appendChild(newTick);
-   
-                newTick.setAttribute("class","set-inline");
-                newTick.setAttribute("id", "tick-id" + [i]);
-
-                }
-
-        }
+        
         
     //ONCE THE WORD IS SET UP, THE PLAYER CAN START CHOOSING LETTERS AS LONG AS THERE ARE TICKS
 
@@ -147,8 +189,7 @@ var gameLetterCheckArray = [];
     if (gameLetterCheckArray.includes("_") === false){
 
        //reset and call new word
-
-       chooseWord();
+       newWord();
     }
 }
     }
