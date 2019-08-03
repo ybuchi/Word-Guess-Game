@@ -28,6 +28,13 @@
     var guessesRemainingText = document.getElementById("guesses-remaining-text");
     var lettersGuessed = document.getElementById("letters-guessed");
 
+
+    //Function Clearbox to clear div at the end of word guess
+    function clearBox(elementID)
+{
+    document.getElementById(elementID).innerHTML = "";
+}
+    // function that creates a new word
     function newWord() {
 
          //The Computer makes a choice
@@ -121,6 +128,82 @@
                     }
     
 
+function newGuess() {
+    document.onkeyup = function(gamePlay) {
+        
+        var userChoice = gamePlay.key;
+        console.log(userChoice);
+
+
+//If the key pressed is equal to one of the letters in the array, then display the letter. USE ANOTHER FOR LOOP.
+
+//If the user's choice fits into one of the array values, display the letters in their position
+//IF THE letter that the user chose is in the array, then run this, if the letter is NOT in the array, then run the else:
+//______________________________________________________________________________
+//IF THE USER IS CORRECT:
+if (letterArray.includes(userChoice)) {
+        for (i=0; i < letterArray.length; i++){
+
+            if (userChoice === letterArray[i]) {
+//Displays the user Choice. 
+            document.getElementById("tick-id" + [i]).innerHTML = userChoice;
+        } 
+    }
+//______________________________________________________________________________
+//If THE USER IS INCORRECT- FIrst incorrect answer
+} else { 
+
+    var letterCheckDiv = document.getElementById("wrong-user-choice" + userChoice);
+
+    console.log(document.getElementById("wrong-user-choice" + userChoice));
+
+    if (letterCheckDiv === null){
+
+        var wrongLetterDiv = document.createElement("div");
+        wrongLetterDiv.setAttribute("id", "wrong-user-choice" + userChoice);
+        wrongLetterDiv.textContent = userChoice;
+
+        lettersGuessed.appendChild(wrongLetterDiv);
+        guessesRemaining--;
+        guessesRemainingText.textContent = "# of Guesses Remaining: " + guessesRemaining;
+        console.log(guessesRemaining);
+
+        if (guessesRemaining === 0) {
+            document.write("GAME OVER");
+        }
+    } 
+}
+//___________________________________________________
+//IF the word is complete (when there are no more ticks), then move on to the next word (fire function chooseWord)
+var gameLetterCheckDiv = document.getElementsByClassName("set-inline");
+console.log("variable gameLetterCheckDiv:" + gameLetterCheckDiv);
+
+var gameLetterCheckArray = [];
+
+for (i=0; i < gameLetterCheckDiv.length; i++){
+
+    var check = gameLetterCheckDiv[i].textContent;
+    console.log("check:" + check);
+
+    gameLetterCheckArray.push(check);
+//IF a "_ " is detected, break from the loop and the user keeps guessin
+}
+
+if (gameLetterCheckArray.includes("_") === false){
+
+   //reset and call new word
+
+   clearBox("game-letters");
+
+   newWord();
+
+
+}
+}
+}
+
+
+
         
         
     //ONCE THE WORD IS SET UP, THE PLAYER CAN START CHOOSING LETTERS AS LONG AS THERE ARE TICKS
@@ -189,7 +272,14 @@ var gameLetterCheckArray = [];
     if (gameLetterCheckArray.includes("_") === false){
 
        //reset and call new word
+
+       clearBox("game-letters");
+
        newWord();
+
+       newGuess();
+
+
     }
 }
     }
