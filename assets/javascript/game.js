@@ -273,6 +273,9 @@ var gameLetterCheckArray = [];
 
        //reset and call new word
 
+       wordsGuessed++;
+       wordsGuessedText.textContent = "# of Words Guessed :" + wordsGuessed;
+
        clearBox("game-letters");
 
        newWord();
