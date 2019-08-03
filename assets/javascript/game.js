@@ -104,27 +104,25 @@
     //If THE USER IS INCORRECT- FIrst incorrect answer
     } else { 
 
-        var wrongLetterDiv = document.createElement("div");
-        wrongLetterDiv.setAttribute("id", "wrong-user-choice" + userChoice);
-
         var letterCheckDiv = document.getElementById("wrong-user-choice" + userChoice);
-        wrongLetterDiv.textContent = userChoice;
 
         console.log(document.getElementById("wrong-user-choice" + userChoice));
-        console.log(wrongLetterDiv.getAttribute("id"));
 
         if (letterCheckDiv === null){
 
+            var wrongLetterDiv = document.createElement("div");
+            wrongLetterDiv.setAttribute("id", "wrong-user-choice" + userChoice);
+            wrongLetterDiv.textContent = userChoice;
 
-            
-            guessesRemaining--;
             lettersGuessed.appendChild(wrongLetterDiv);
-
-            console.log("I gotchu");
+            guessesRemaining--;
+            guessesRemainingText.textContent = "# of Guesses Remaining: " + guessesRemaining;
             console.log(guessesRemaining);
 
+            if (guessesRemaining === 0) {
+                document.write("GAME OVER");
+            }
         } 
-
     }
 
     
