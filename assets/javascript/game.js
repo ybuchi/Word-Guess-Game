@@ -27,13 +27,16 @@
     var wordsGuessedText = document.getElementById("words-guessed-text");
     var guessesRemainingText = document.getElementById("guesses-remaining-text");
     var lettersGuessed = document.getElementById("letters-guessed");
+
     //Create variables for the scores we want to keep track of
+
+
 
 
 
 /////////////////
 ///////////////// GAME START : When the user clicks on a key, the game sets up, and then starts
-    document.onkeyup = function(event) {
+    document.onkeyup = function(setWord) {
 
     //AFTER INITIAL CLICK< THE GAME IS SET UP, DECLARE VARIABLES
         //The scores are displayed
@@ -43,7 +46,7 @@
         lettersGuessed.textContent = "Letters Guessed: " 
 
 
-
+        //function chooseWord(){
         //The Computer makes a choice
         var compChoice = gameWords[Math.floor(Math.random() * gameWords.length)];
         console.log(compChoice);
@@ -75,8 +78,9 @@
                 newTick.setAttribute("id", "tick-id" + [i]);
 
                 }
+
         }
-    
+        
     //ONCE THE WORD IS SET UP, THE PLAYER CAN START CHOOSING LETTERS AS LONG AS THERE ARE TICKS
 
     //We record the key that the user pressed
@@ -124,23 +128,34 @@
             }
         } 
     }
+//___________________________________________________
+//IF the word is complete (when there are no more ticks), then move on to the next word (fire function chooseWord)
+var gameLetterCheckDiv = document.getElementsByClassName("set-inline");
+console.log("variable gameLetterCheckDiv:" + gameLetterCheckDiv);
 
-    
+var gameLetterCheckArray = [];
 
-                //Create the div and give it an id, and display it on the first wrong guess
+    for (i=0; i < gameLetterCheckDiv.length; i++){
+
+        var check = gameLetterCheckDiv[i].textContent;
+        console.log("check:" + check);
+
+        gameLetterCheckArray.push(check);
+    //IF a "_ " is detected, break from the loop and the user keeps guessin
+    }
+
+    if (gameLetterCheckArray.includes("_") === false){
+
+       //reset and call new word
+
+       chooseWord();
+    }
+}
+    }
 
 
 
 
-        }
-
-            //ALL OTHER WRONG GUESSES - check if letter has already been guessed
-    };
-
-
-    //If guesses = 0; you loose
-    //If word is guessed, move to the next one
-    //If you guess the same word twice, you shouldn't get 
 
 
 
