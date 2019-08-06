@@ -74,7 +74,8 @@ var compChoice = choseWord(gameWords);
 console.log("The computer's current choice is: " + compChoice)
 
 //Display the scores
-document.getElementById("words-guessed-text").innerHTML = "# of Words Guessed: " + wordsGuessed;
+document.getElementById("words-guessed-text").innerHTML = "Words Guessed: " + wordsGuessed;
+document.getElementById("guesses-remaining-text").innerHTML = "Guesses Remaining: " + guessesRemaining;
 
 var lettersRemaining = compChoice.length;
 
@@ -133,6 +134,7 @@ for (i = 0; i < compChoice.length; i++){
                 if (letterCheckDiv === null){
                 
                 guessesRemaining--;
+                document.getElementById("guesses-remaining-text").innerHTML = "Guesses Remaining: " + guessesRemaining;
                 console.log("Guesses remaining:" + guessesRemaining);
 
                 var wrongLetterDiv = document.createElement("div");
