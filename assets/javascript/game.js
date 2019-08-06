@@ -2,298 +2,155 @@
 
 ///////GAME SETUP
 
-//INCLUDE THIS IN A FUNCTION THAT WILL BE CALLED UPON WHEN THE USER HITS A KEY
-//The game fires when the user presses any key:
-
-
-
-//The Computer needs to choose a word and associate an image with it
 ////////////
-////////////VARIABLE DECLARATIONS
+////////////GLOBAL VARIABLE DECLARATIONS
 
     //Create an array of words
-
     var gameWords = ['football','real madrid', 'champions league', 'bayern munich', 'arsenal'];
     console.log(gameWords);
 
-
+    //Create variablers for the scores to track
     var wordsGuessed = 0;
     var guessesRemaining = 10;
-
-    //Grab the empty div in which we want to add our tick marks
-    var gameTickDiv = document.getElementById("game-letters");
 
     //Grab the divs containing the scores we want to track
     var wordsGuessedText = document.getElementById("words-guessed-text");
     var guessesRemainingText = document.getElementById("guesses-remaining-text");
-    var lettersGuessed = document.getElementById("letters-guessed");
+    var lettersGuessedText = document.getElementById("letters-guessed");
 
-
-    //Function Clearbox to clear div at the end of word guess
-    function clearBox(elementID)
-{
-    document.getElementById(elementID).innerHTML = "";
-}
-    // function that creates a new word
-    function newWord() {
-
-         //The Computer makes a choice
-         var compChoice = gameWords[Math.floor(Math.random() * gameWords.length)];
-         console.log(compChoice);
- 
-         //The computer slices the word into an array of letters
-         var letterArray = compChoice.split('');
- 
-         //Array of letters is displayed as "_" in the document
-         for (i=0; i < letterArray.length; i++) {
- 
-             if (letterArray[i] === " ") {
- 
-             var newTick = document.createElement("div");
-              newTick.textContent = " ";
-             gameTickDiv.appendChild(newTick);
- 
-             newTick.setAttribute("class","set-inline");
- 
-             } 
-            
-             
-             else {
- 
-                 var newTick = document.createElement("div");
-                 newTick.textContent = "_";
-                 gameTickDiv.appendChild(newTick);
-    
-                 newTick.setAttribute("class","set-inline");
-                 newTick.setAttribute("id", "tick-id" + [i]);
- 
-                 }
-             }
-
-
-    }
-
-    //Create variables for the scores we want to keep track of
-
-
-
-
-
-
-/////////////////
-///////////////// GAME START : When the user clicks on a key, the game sets up, and then starts
-    document.onkeyup = function(event) {
-
-    //AFTER INITIAL CLICK< THE GAME IS SET UP, DECLARE VARIABLES
         //The scores are displayed
-
         wordsGuessedText.textContent = "# of Words Guessed: " + wordsGuessed;
         guessesRemainingText.textContent = "# of Guesses Remaining: " + guessesRemaining;
-        lettersGuessed.textContent = "Letters Guessed: " + lettersGuessed;
+        lettersGuessedText.textContent = "Letters Guessed: ";
+
+    //Create a variable to grab the empty div we want to fill our game-letters with
+    var gameTickDiv = document.getElementById("game-letters");
+
+        //Create a Function Clearbox to clear div at the end of word guess
+        function clearBox(elementID)
+        {
+            document.getElementById(elementID).innerHTML = "";
+        }
+    
+    //Create a check array to check the contents of the current word for ticks "_"
+    var checkArray = []
+
+    var underscoreCheck = document.getElementsByClassName("underscore");
+    console.log("This is :" + underscoreCheck);
 
 
-        //function chooseWord(){
-
-                //The Computer makes a choice
-                var compChoice = gameWords[Math.floor(Math.random() * gameWords.length)];
-                console.log(compChoice);
-        
-                //The computer slices the word into an array of letters
-                var letterArray = compChoice.split('');
-        
-                //Array of letters is displayed as "_" in the document
-                for (i=0; i < letterArray.length; i++) {
-        
-                    if (letterArray[i] === " ") {
-        
-                    var newTick = document.createElement("div");
-                     newTick.textContent = " ";
-                    gameTickDiv.appendChild(newTick);
-        
-                    newTick.setAttribute("class","set-inline");
-        
-                    } 
-                   
-                    
-                    else {
-        
-                        var newTick = document.createElement("div");
-                        newTick.textContent = "_";
-                        gameTickDiv.appendChild(newTick);
-           
-                        newTick.setAttribute("class","set-inline");
-                        newTick.setAttribute("id", "tick-id" + [i]);
-        
-                        }
-                    }
     
 
-function newGuess() {
-    document.onkeyup = function(gamePlay) {
-        
-        var userChoice = gamePlay.key;
-        console.log(userChoice);
+//___________________________________________________________________________________________
+/////////////////
+///////////////// GAME START : When the user clicks on a key, the game sets up, and then starts
+
+document.onkeyup = function(event) {
+
+    //The computer chooses a word
+    var compChoice = gameWords[Math.floor(Math.random() * gameWords.length)];
+    console.log("The computer's choice: " + compChoice);
+
+    //The computer's word choice will be split into an array of letters
+    var letterArray = compChoice.split('');
+    console.log("variable letterArray:" + letterArray);
 
 
-//If the key pressed is equal to one of the letters in the array, then display the letter. USE ANOTHER FOR LOOP.
+    //Set up the current word in the game by replacing each letter with a "_"
+    for (i=0; i < letterArray.length; i++) {
 
-//If the user's choice fits into one of the array values, display the letters in their position
-//IF THE letter that the user chose is in the array, then run this, if the letter is NOT in the array, then run the else:
-//______________________________________________________________________________
-//IF THE USER IS CORRECT:
-if (letterArray.includes(userChoice)) {
-        for (i=0; i < letterArray.length; i++){
+        if (letterArray[i] === " ") {
 
-            if (userChoice === letterArray[i]) {
-//Displays the user Choice. 
-            document.getElementById("tick-id" + [i]).innerHTML = userChoice;
-        } 
-    }
-//______________________________________________________________________________
-//If THE USER IS INCORRECT- FIrst incorrect answer
-} else { 
+        var newTick = document.createElement("div");
+            newTick.textContent = " ";
+        gameTickDiv.appendChild(newTick);
 
-    var letterCheckDiv = document.getElementById("wrong-user-choice" + userChoice);
+        newTick.setAttribute("class","replaced");
 
-    console.log(document.getElementById("wrong-user-choice" + userChoice));
+        } else {
 
-    if (letterCheckDiv === null){
+            var newTick = document.createElement("div");
+            newTick.textContent = "_";
+            gameTickDiv.appendChild(newTick);
 
-        var wrongLetterDiv = document.createElement("div");
-        wrongLetterDiv.setAttribute("id", "wrong-user-choice" + userChoice);
-        wrongLetterDiv.textContent = userChoice;
+            newTick.setAttribute("class","set-inline underscore");
+            newTick.setAttribute("id", "tick-id " + letterArray[i]);
+            console.log("Tick has been created");
 
-        lettersGuessed.appendChild(wrongLetterDiv);
-        guessesRemaining--;
-        guessesRemainingText.textContent = "# of Guesses Remaining: " + guessesRemaining;
-        console.log(guessesRemaining);
-
-        if (guessesRemaining === 0) {
-            document.write("GAME OVER");
-        }
-    } 
-}
-//___________________________________________________
-//IF the word is complete (when there are no more ticks), then move on to the next word (fire function chooseWord)
-var gameLetterCheckDiv = document.getElementsByClassName("set-inline");
-console.log("variable gameLetterCheckDiv:" + gameLetterCheckDiv);
-
-var gameLetterCheckArray = [];
-
-for (i=0; i < gameLetterCheckDiv.length; i++){
-
-    var check = gameLetterCheckDiv[i].textContent;
-    console.log("check:" + check);
-
-    gameLetterCheckArray.push(check);
-//IF a "_ " is detected, break from the loop and the user keeps guessin
-}
-
-if (gameLetterCheckArray.includes("_") === false){
-
-   //reset and call new word
-
-   clearBox("game-letters");
-
-   newWord();
-
-
-}
-}
-}
-
-
-
-        
-        
-    //ONCE THE WORD IS SET UP, THE PLAYER CAN START CHOOSING LETTERS AS LONG AS THERE ARE TICKS
-
-    //We record the key that the user pressed
-        document.onkeyup = function(gamePlay) {
-        
-            var userChoice = gamePlay.key;
-            console.log(userChoice);
-
-
-    //If the key pressed is equal to one of the letters in the array, then display the letter. USE ANOTHER FOR LOOP.
-    
-    //If the user's choice fits into one of the array values, display the letters in their position
-    //IF THE letter that the user chose is in the array, then run this, if the letter is NOT in the array, then run the else:
-//______________________________________________________________________________
-    //IF THE USER IS CORRECT:
-    if (letterArray.includes(userChoice)) {
-            for (i=0; i < letterArray.length; i++){
-
-                if (userChoice === letterArray[i]) {
-//Displays the user Choice. 
-                document.getElementById("tick-id" + [i]).innerHTML = userChoice;
-            } 
-        }
-//______________________________________________________________________________
-    //If THE USER IS INCORRECT- FIrst incorrect answer
-    } else { 
-
-        var letterCheckDiv = document.getElementById("wrong-user-choice" + userChoice);
-
-        console.log(document.getElementById("wrong-user-choice" + userChoice));
-
-        if (letterCheckDiv === null){
-
-            var wrongLetterDiv = document.createElement("div");
-            wrongLetterDiv.setAttribute("id", "wrong-user-choice" + userChoice);
-            wrongLetterDiv.textContent = userChoice;
-
-            lettersGuessed.appendChild(wrongLetterDiv);
-            guessesRemaining--;
-            guessesRemainingText.textContent = "# of Guesses Remaining: " + guessesRemaining;
-            console.log(guessesRemaining);
-
-            if (guessesRemaining === 0) {
-                document.write("GAME OVER");
             }
-        } 
-    }
+        }
+
+
+
+        //Handle the user choice
+       //while (checkArray.includes("_")){
+
+            document.onkeyup = function(userGuess) {
+                
+                var userChoice = userGuess.key;
+                console.log("User choice :" + userChoice);
+
+
+            //______________________________________________________________________________
+            //IF THE USER IS CORRECT:
+            //______________________________________________________________________________
+            if (letterArray.includes(userChoice)) {
+                    for (i=0; i < letterArray.length; i++){
+
+
+                        if (userChoice === letterArray[i]) {
+            //Displays the user's letter choice(s) in its (their) respective div
+                        
+                        var replacedDiv = document.getElementById("tick-id " + letterArray[i]);
+                        replacedDiv.innerHTML = userChoice;
+                        replacedDiv.setAttribute("class", "replaced")
+
+                    } 
+
+                    if (document.getElementsByClassName("underscore").length = null){
+                        clearBox("game-letters");
+                    }
+                    
+                }
+            
+                console.log("The user was correct");
+            
+            //______________________________________________________________________________
+            //If THE USER IS INCORRECT
+            //______________________________________________________________________________
+            } else { 
+
+                var letterCheckDiv = document.getElementById("wrong-user-choice" + userChoice);
+                console.log(document.getElementById("wrong-user-choice" + userChoice));
+
+            //IF the user hasn't guessed this letter wrong yet, then its associated div won't exist, and decrease the score by 1 
+                if (letterCheckDiv === null){
+
+                    var wrongLetterDiv = document.createElement("div");
+                    wrongLetterDiv.setAttribute("id", "wrong-user-choice" + userChoice);
+                    wrongLetterDiv.textContent = userChoice;
+
+                    lettersGuessedText.appendChild(wrongLetterDiv);
+
+                   //Decrease the score and display it 
+                    guessesRemaining--;
+                    guessesRemainingText.textContent = "# of Guesses Remaining: " + guessesRemaining;
+                    console.log(guessesRemaining);
+                    
+
+                    //If this is the player's last guess, END GAME
+                    if (guessesRemaining === 0) {
+                        document.write("GAME OVER");
+                        //else if the word is guessed: check array length 
+                    }
+     
+                } 
+            }
 //___________________________________________________
-//IF the word is complete (when there are no more ticks), then move on to the next word (fire function chooseWord)
-var gameLetterCheckDiv = document.getElementsByClassName("set-inline");
-console.log("variable gameLetterCheckDiv:" + gameLetterCheckDiv);
-
-var gameLetterCheckArray = [];
-
-    for (i=0; i < gameLetterCheckDiv.length; i++){
-
-        var check = gameLetterCheckDiv[i].textContent;
-        console.log("check:" + check);
-
-        gameLetterCheckArray.push(check);
-    //IF a "_ " is detected, break from the loop and the user keeps guessin
-    }
-
-    if (gameLetterCheckArray.includes("_") === false){
-
-       //reset and call new word
-
-       wordsGuessed++;
-       wordsGuessedText.textContent = "# of Words Guessed :" + wordsGuessed;
-
-       clearBox("game-letters");
-
-       newWord();
-
-       newGuess();
+   //Once the while loop is done, the word has been guessed. Clear the game letter div.
 
 
-    }
-}
+        }
     }
 
 
-
-
-
-
-
-
-
-
-//When the user presses a key
