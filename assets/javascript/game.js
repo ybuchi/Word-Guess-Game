@@ -29,7 +29,8 @@ function clearBox(elementID)
 //Create a function that will reset a new word when a word is guessed
 function wordReset(){
 
-    wordsGuessed++,
+    wordsGuessed++;
+    document.getElementById("words-guessed-text").innerHTML = "# of Words Guessed: " + wordsGuessed;
 
     clearBox("game-letters");
 
@@ -71,6 +72,9 @@ function wordReset(){
 //The computer choses a word and sets up the div containg the current word
 var compChoice = choseWord(gameWords);
 console.log("The computer's current choice is: " + compChoice)
+
+//Display the scores
+document.getElementById("words-guessed-text").innerHTML = "# of Words Guessed: " + wordsGuessed;
 
 var lettersRemaining = compChoice.length;
 
