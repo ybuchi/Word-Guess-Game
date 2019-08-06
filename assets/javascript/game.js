@@ -103,15 +103,19 @@ document.onkeyup = function(event) {
                         
                         var replacedDiv = document.getElementById("tick-id " + [i]);
                         replacedDiv.innerHTML = userChoice;
-                        replacedDiv.setAttribute("class", "replaced")
-
-                    } 
-
-                    if (document.getElementsByClassName("underscore").length = null){
-                        clearBox("game-letters");
-                    }
-                    
+                        replacedDiv.setAttribute("class", "replaced");
                 }
+
+
+                
+            }
+
+            if (document.getElementsByClassName("replaced").length === letterArray.length){
+                
+            
+                clearBox("game-letters");
+
+            } 
             
                 console.log("The user was correct");
             
