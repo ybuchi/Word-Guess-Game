@@ -1,160 +1,152 @@
-//HANGMAN-My Edition
+/////////////////////////////DECLARE GLOBAL VARIABLES
+/////////////////////////////////////////////////////
 
-///////GAME SETUP
+//Create an array with all the words 
+var gameWords = ["football", "bayern munich", "ronaldinho", "champions league"]
 
-////////////
-////////////GLOBAL VARIABLE DECLARATIONS
+//Create variables for the scores
+wordsGuessed = 0;
+guessesRemaining = 10;
 
-    //Create an array of words
-    var gameWords = ['football','real madrid', 'champions league', 'bayern munich', 'arsenal'];
-    console.log(gameWords);
+//Create variables for the document elements that we will be using
 
-    //Create variablers for the scores to track
-    var wordsGuessed = 0;
-    var guessesRemaining = 10;
+var currentWordDiv = document.getElementById("game-letters");
+var lettersGuessedDiv = document.getElementById("letters-guessed");
 
-    //Grab the divs containing the scores we want to track
-    var wordsGuessedText = document.getElementById("words-guessed-text");
-    var guessesRemainingText = document.getElementById("guesses-remaining-text");
-    var lettersGuessedText = document.getElementById("letters-guessed");
+//Create a function that will randomly choose one of these words
+function choseWord(targetArray){
+    
+    var randomWord = targetArray[Math.floor(Math.random()*targetArray.length)]
+    return randomWord
+}
 
-        //The scores are displayed
-        wordsGuessedText.textContent = "# of Words Guessed: " + wordsGuessed;
-        guessesRemainingText.textContent = "# of Guesses Remaining: " + guessesRemaining;
-        lettersGuessedText.textContent = "Letters Guessed: ";
+//Create a function that will clear the currenWord Div when the word is reset
+function clearBox(elementID)
+{
+    document.getElementById(elementID).innerHTML = "";
+}
 
-    //Create a variable to grab the empty div we want to fill our game-letters with
-    var gameTickDiv = document.getElementById("game-letters");
+//Create a function that will reset a new word when a word is guessed
+function wordReset(){
 
-        //Create a Function Clearbox to clear div at the end of word guess
-        function clearBox(elementID)
-        {
-            document.getElementById(elementID).innerHTML = "";
+    wordsGuessed++,
+
+    clearBox("game-letters");
+
+    choseWord(gameWords);
+    compChoice = choseWord(gameWords);
+    console.log("The computer's current choice is: " + compChoice)
+    
+    var lettersRemaining = compChoice.length;
+    
+    for (i = 0; i < compChoice.length; i++){
+        if (compChoice[i] === " "){
+    
+            lettersRemaining--;
+    
+            underscoreDiv = document.createElement("div");
+            underscoreDiv.textContent = compChoice[i];
+            currentWordDiv.appendChild(underscoreDiv);
+    
+            underscoreDiv.setAttribute("class", "set-inline guessed")
+    
+        }else {
+    
+            underscoreDiv = document.createElement("div");
+            underscoreDiv.textContent = "_";
+            currentWordDiv.appendChild(underscoreDiv);
+    
+            underscoreDiv.setAttribute("class", "set-inline");
+            underscoreDiv.setAttribute("id", "underscore-" + [i])
         }
     
-    //Create a check array to check the contents of the current word for ticks "_"
-    var checkArray = []
-
-    var underscoreCheck = document.getElementsByClassName("underscore");
-    console.log("This is :" + underscoreCheck);
-
-
+    }
     
 
-//___________________________________________________________________________________________
-/////////////////
-///////////////// GAME START : When the user clicks on a key, the game sets up, and then starts
+}
 
-document.onkeyup = function(event) {
+///////////////////////////////////////////////Enter game initial setup
 
-    //The computer chooses a word
-    var compChoice = gameWords[Math.floor(Math.random() * gameWords.length)];
-    console.log("The computer's choice: " + compChoice);
+///INITIAL SETUP
 
-    //The computer's word choice will be split into an array of letters
-    var letterArray = compChoice.split('');
-    console.log("variable letterArray:" + letterArray);
+//The computer choses a word and sets up the div containg the current word
+var compChoice = choseWord(gameWords);
+console.log("The computer's current choice is: " + compChoice)
 
+var lettersRemaining = compChoice.length;
 
-    //Set up the current word in the game by replacing each letter with a "_"
-    for (i=0; i < letterArray.length; i++) {
+for (i = 0; i < compChoice.length; i++){
+    if (compChoice[i] === " "){
 
-        if (letterArray[i] === " ") {
+        lettersRemaining--;
 
-        var newTick = document.createElement("div");
-            newTick.textContent = " ";
-        gameTickDiv.appendChild(newTick);
+        underscoreDiv = document.createElement("div");
+        underscoreDiv.textContent = compChoice[i];
+        currentWordDiv.appendChild(underscoreDiv);
 
-        newTick.setAttribute("class","replaced");
+        underscoreDiv.setAttribute("class", "set-inline guessed")
 
-        } else {
+    }else {
 
-            var newTick = document.createElement("div");
-            newTick.textContent = "_";
-            gameTickDiv.appendChild(newTick);
+        underscoreDiv = document.createElement("div");
+        underscoreDiv.textContent = "_";
+        currentWordDiv.appendChild(underscoreDiv);
 
-            newTick.setAttribute("class","set-inline underscore");
-            newTick.setAttribute("id", "tick-id " + [i]);
-            console.log("Tick has been created");
-
-            }
-        }
-
-
-
-        //Handle the user choice
-       //while (checkArray.includes("_")){
-
-            document.onkeyup = function(userGuess) {
-                
-                var userChoice = userGuess.key;
-                console.log("User choice :" + userChoice);
-
-
-            //______________________________________________________________________________
-            //IF THE USER IS CORRECT:
-            //______________________________________________________________________________
-            if (letterArray.includes(userChoice)) {
-                    for (i=0; i < letterArray.length; i++){
-
-
-                        if (userChoice === letterArray[i]) {
-            //Displays the user's letter choice(s) in its (their) respective div
-                        
-                        var replacedDiv = document.getElementById("tick-id " + [i]);
-                        replacedDiv.innerHTML = userChoice;
-                        replacedDiv.setAttribute("class", "replaced");
-                }
-
-
-                
-            }
-
-            if (document.getElementsByClassName("replaced").length === letterArray.length){
-                
-            
-                clearBox("game-letters");
-
-            } 
-            
-                console.log("The user was correct");
-            
-            //______________________________________________________________________________
-            //If THE USER IS INCORRECT
-            //______________________________________________________________________________
-            } else { 
-
-                var letterCheckDiv = document.getElementById("wrong-user-choice" + userChoice);
-                console.log(document.getElementById("wrong-user-choice" + userChoice));
-
-            //IF the user hasn't guessed this letter wrong yet, then its associated div won't exist, and decrease the score by 1 
-                if (letterCheckDiv === null){
-
-                    var wrongLetterDiv = document.createElement("div");
-                    wrongLetterDiv.setAttribute("id", "wrong-user-choice" + userChoice);
-                    wrongLetterDiv.textContent = userChoice;
-
-                    lettersGuessedText.appendChild(wrongLetterDiv);
-
-                   //Decrease the score and display it 
-                    guessesRemaining--;
-                    guessesRemainingText.textContent = "# of Guesses Remaining: " + guessesRemaining;
-                    console.log(guessesRemaining);
-                    
-
-                    //If this is the player's last guess, END GAME
-                    if (guessesRemaining === 0) {
-                        document.write("GAME OVER");
-                        //else if the word is guessed: check array length 
-                    }
-     
-                } 
-            }
-//___________________________________________________
-   //Once the while loop is done, the word has been guessed. Clear the game letter div.
-
-
-        }
+        underscoreDiv.setAttribute("class", "set-inline");
+        underscoreDiv.setAttribute("id", "underscore-" + [i])
     }
 
+}
 
+
+
+//////////////////////////////////////////////////Enter Main Game Loop
+
+    document.addEventListener("keyup", function(userChooses){
+
+        var userChoice = userChooses.key;
+
+        for (j = 0; j < compChoice.length; j++){
+
+            var targetUnderscores = document.getElementById("underscore-"+ [j])
+
+            if (userChoice === compChoice[j] && targetUnderscores.innerHTML === "_"){
+
+                targetUnderscores.innerHTML = userChoice;
+                targetUnderscores.setAttribute("class", "replaced");
+                lettersRemaining--;
+                console.log("Letters Remaining: "+ lettersRemaining);
+
+                if(lettersRemaining === 0){
+
+                    wordReset();
+                    break;
+
+                }
+
+            }else if (compChoice.includes(userChoice) === false){
+
+                var letterCheckDiv = document.getElementById("wrong-user-choice" + userChoice);
+
+                if (letterCheckDiv === null){
+                
+                guessesRemaining--;
+                console.log("Guesses remaining:" + guessesRemaining);
+
+                var wrongLetterDiv = document.createElement("div");
+                wrongLetterDiv.setAttribute("id", "wrong-user-choice" + userChoice);
+                wrongLetterDiv.textContent = userChoice;
+
+                lettersGuessedDiv.appendChild(wrongLetterDiv);
+
+                if (guessesRemaining === 0){
+                    document.write("GAME OVER");
+                }
+                
+                }
+            }
+        }
+
+
+
+    })
