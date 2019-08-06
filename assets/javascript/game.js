@@ -30,9 +30,12 @@ function clearBox(elementID)
 function wordReset(){
 
     wordsGuessed++;
-    document.getElementById("words-guessed-text").innerHTML = "# of Words Guessed: " + wordsGuessed;
+    document.getElementById("words-guessed-text").innerHTML = "Words Guessed: " + wordsGuessed;
 
     clearBox("game-letters");
+    clearBox("letters-guessed");
+
+    document.getElementById("letters-guessed").innerHTML = "Letters Guessed: "
 
     choseWord(gameWords);
     compChoice = choseWord(gameWords);
