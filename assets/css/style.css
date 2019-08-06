@@ -1,11 +1,34 @@
+.title-div {
+    font-family: 'Sigmar One', cursive;
+    color: blue;
+    margin: auto;
+    text-align: center;
+    background: grey;
+}
+
+
 .set-inline {
     margin-left: 3px;
     margin-right: 3px;
-    display: inline-block
+    display: inline-block;
+    font-family: 'Indie Flower', cursive;
 }
 
 .replaced {
     margin-left: 3px;
     margin-right: 3px;
-    display: inline-block
+    display: inline-block;
+    font-family: 'Indie Flower', cursive;
+}
+
+
+
+.game-description {
+    font-family: 'Indie Flower', cursive;
+    color: red;
+}
+
+.game-info {
+    font-family: 'Indie Flower', cursive;
+    font-weight: bold;
 }
