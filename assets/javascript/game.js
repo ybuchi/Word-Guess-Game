@@ -74,7 +74,7 @@ document.onkeyup = function(event) {
             gameTickDiv.appendChild(newTick);
 
             newTick.setAttribute("class","set-inline underscore");
-            newTick.setAttribute("id", "tick-id " + letterArray[i]);
+            newTick.setAttribute("id", "tick-id " + [i]);
             console.log("Tick has been created");
 
             }
@@ -101,7 +101,7 @@ document.onkeyup = function(event) {
                         if (userChoice === letterArray[i]) {
             //Displays the user's letter choice(s) in its (their) respective div
                         
-                        var replacedDiv = document.getElementById("tick-id " + letterArray[i]);
+                        var replacedDiv = document.getElementById("tick-id " + [i]);
                         replacedDiv.innerHTML = userChoice;
                         replacedDiv.setAttribute("class", "replaced")
 
