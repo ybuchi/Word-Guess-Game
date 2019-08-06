@@ -35,9 +35,9 @@ function wordReset(){
 
     choseWord(gameWords);
     compChoice = choseWord(gameWords);
-    console.log("The computer's current choice is: " + compChoice)
+    console.log("The computer's new choice is: " + compChoice)
     
-    var lettersRemaining = compChoice.length;
+    lettersRemaining = compChoice.length;
     
     for (i = 0; i < compChoice.length; i++){
         if (compChoice[i] === " "){
@@ -62,7 +62,6 @@ function wordReset(){
     
     }
     
-
 }
 
 ///////////////////////////////////////////////Enter game initial setup
@@ -95,7 +94,6 @@ for (i = 0; i < compChoice.length; i++){
         underscoreDiv.setAttribute("class", "set-inline");
         underscoreDiv.setAttribute("id", "underscore-" + [i])
     }
-
 }
 
 
