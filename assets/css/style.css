@@ -32,3 +32,11 @@
     font-family: 'Indie Flower', cursive;
     font-weight: bold;
 }
+
+#game-container{
+    text-align: center;
+}
+
+#game-letters{
+    font-size: 30px;
+}

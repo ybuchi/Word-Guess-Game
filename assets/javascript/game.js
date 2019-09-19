@@ -2,7 +2,7 @@
 /////////////////////////////////////////////////////
 
 //Create an array with all the words 
-var gameWords = ["football", "bayern munich", "ronaldinho", "champions league"]
+var gameWords = ["football", "bayern munich", "ronaldinho", "champions league", "manchester united", "goal", "arjen robben"]
 
 //Create variables for the scores
 wordsGuessed = 0;
@@ -29,7 +29,12 @@ function clearBox(elementID)
 //Create a function that will reset a new word when a word is guessed
 function wordReset(){
 
+    // Update the number of words guessed
+
     wordsGuessed++;
+
+
+    document.addEventListener("keyup", function(){
     document.getElementById("words-guessed-text").innerHTML = "Words Guessed: " + wordsGuessed;
 
     clearBox("game-letters");
@@ -65,8 +70,11 @@ function wordReset(){
         }
     
     }
+})
+
     
 }
+
 
 ///////////////////////////////////////////////Enter game initial setup
 
@@ -125,8 +133,12 @@ for (i = 0; i < compChoice.length; i++){
 
                 if(lettersRemaining === 0){
 
+            
+
                     wordReset();
                     break;
+
+                
 
                 }
 
