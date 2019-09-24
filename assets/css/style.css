@@ -2,8 +2,11 @@
     font-family: 'Sigmar One', cursive;
     color: blue;
     margin: auto;
+
+    border: solid 1.5px black;
     text-align: center;
-    background: grey;
+    text-shadow: 2px 2px black;
+    background: lightslategray;
 }
 
 
@@ -22,13 +25,32 @@
 }
 
 
-
 .game-description {
     font-family: 'Indie Flower', cursive;
     color: red;
+
 }
 
 .game-info {
     font-family: 'Indie Flower', cursive;
     font-weight: bold;
+
+}
+
+.game-results-div {
+    border: solid;
+    width: 40%;
+    text-align: center;
+    box-shadow: 10px 10px 5px grey;
+    background-image: url("/Users/Yannik/Bootcamp/Homework3/Word-Guess-Game/assets/images/funky-lines.png");
+}
+
+#letters-guessed {
+    height: 200px;
+}
+
+#game-letters {
+    font-weight: bold;
+    border: dotted 2px gray;
+    margin: 0px 10px 0px;
 }

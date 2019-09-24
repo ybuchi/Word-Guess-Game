@@ -20,6 +20,7 @@ function choseWord(targetArray){
     return randomWord
 }
 
+
 //Create a function that will clear the currenWord Div when the word is reset
 function clearBox(elementID)
 {
