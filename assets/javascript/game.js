@@ -4,6 +4,12 @@ $(document).ready(function(){
     console.log("Ready for Action!")
 });
 
+//Create the global variables for elements on the HTML document:
+
+//The div that will hold the word to be guessed:
+
+var gameWordDiv = $("#game-letters");
+
 //Create an Array that will contain the words, descriptions and images.
 
 wordArray = [];
@@ -47,9 +53,24 @@ function chooseWord(){
     var chosenWord = wordArray[randomNumber].word;
     console.log(chosenWord);
 
-    //Access the word property to extract the word
+    //Split the word into an array of letters
+    var gameLetterArr = chosenWord.split("");
+    console.log("The array of letters for the chose word is: " + gameLetterArr);
 
-    //Display the word in the div
+    //For each character, create a div.
+    for (i = 0; i < gameLetterArr.length; i++){
+
+        //create a variable for the letter
+        var letter = gameLetterArr[i];
+
+        //create a div and add the letter to it
+        var letterDiv = $("<div>");
+        letterDiv.append(letter);
+
+        //Append the div to the target area on the document
+        gameWordDiv.append(letterDiv);
+
+    }
 
 }
 
