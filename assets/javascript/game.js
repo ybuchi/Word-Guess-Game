@@ -43,6 +43,9 @@ guessesRemaining = 10;
 
 function chooseWord(){
 
+    //Fire Initiate Words
+    initiateWords();
+
     //Randomly choose an object from the word object array
 
     //Gets a number between 1 and 3 (both inclusive)
@@ -59,20 +62,115 @@ function chooseWord(){
 
     //For each character, create a div.
     for (i = 0; i < gameLetterArr.length; i++){
+        
 
-        //create a variable for the letter
-        var letter = gameLetterArr[i];
+        //IF THE CHARACTER IS A SPACE, then do not add underscore
+        if(gameLetterArr[i] === " "){
 
         //create a div and add the letter to it
         var letterDiv = $("<div>");
-        letterDiv.append(letter);
+        letterDiv.attr("id", "spaceAt-" + [i + 1]);
+        letterDiv.addClass("space");
+        letterDiv.append("*");
 
         //Append the div to the target area on the document
         gameWordDiv.append(letterDiv);
 
-    }
+        }else{
 
-}
+        //create a div and add the letter to it
+        var letterDiv = $("<div>");
+        letterDiv.attr("id", "letter-" + [i + 1]);
+        letterDiv.attr("value", gameLetterArr[i]);
+        letterDiv.addClass("game-letter");
+        letterDiv.append("_");
+
+        //Append the div to the target area on the document
+        gameWordDiv.append(letterDiv);
+        }
+    };//END of For Loop
+
+    //////////////////////////////////////////////////////////////////////
+    //Create a variable to track the number of letters currently guessed:
+    var lettersLeft = gameLetterArr.length;
+    //Wait for each time the player presses a key
+
+    $(document).keyup(function(keypress){
+
+        //Record the User's choice
+        var userChoice = keypress.key;
+        console.log("The User Choice is: " + userChoice);
+        console.log($("#game-letter").length);
+        
+        //If the User Choice is the same as one of the letters, then display the letter(s)
+        for (i = 0; i < gameLetterArr.length; i++){
+
+            if (gameLetterArr.includes(" ")&&(gameLetterArr.includes(userChoice))){
+
+                lettersLeft--;
+
+                if(userChoice === $("#letter-" + [i + 1]).attr("value")){
+
+                    //Diminish the number of letters left to guess
+                    lettersLeft--;
+                    console.log("There are " + lettersLeft + " letters left to guess.")
+                    
+                    //empty the div
+                    $("#letter-" + [i + 1]).empty();
+                    $("#letter-" + [i + 1]).append(gameLetterArr[i]);
+
+                    if(lettersLeft === 0){
+                        wordsGuessed++;
+                        //show the image and display additional information
+                        console.log("There are NO MORE LETTERS LEFT!")
+
+                    }
+                }
+            }else if (gameLetterArr.includes(userChoice)){
+                
+                if(userChoice === $("#letter-" + [i + 1]).attr("value")){
+
+                //Diminish the number of letters left to guess
+                lettersLeft--;
+                console.log("There are " + lettersLeft + " letters left to guess.")
+                
+                //empty the div
+                $("#letter-" + [i + 1]).empty();
+                $("#letter-" + [i + 1]).append(gameLetterArr[i]);
+
+                if(lettersLeft === 0){
+                    wordsGuessed++;
+                    //show the image and display additional information
+                    console.log("There are NO MORE LETTERS LEFT!")
+
+                    var infoImage = $("<img>");
+                    infoImage.attr("id", "current-image");
+                    infoImage.attr("url", wordArray[randomNumber].image);
+                    $("#info-image").append(infoImage);
+
+                    var infoText = $("<p>");
+                    infoText.attr("id", "info-text");
+                    infoText.append(wordArray[randomNumber].description);
+                    $("#info-text").append(infoText);
+                    
+                }
+                
+                }
+            }
+        }
+        
+        
+        
+    
+    
+    });
+
+};//END of ChooseWord Function\
+
+
+/////////////GAME FUNCTIONALITY
+
+chooseWord();
 
 
 
@@ -82,12 +180,3 @@ function chooseWord(){
 
 
 
-
-
-
-
-
-//Create variables for the elements we want to target to show the information:
-
-//This is a variable for the space where we want to display the word to be guessed
-var gameLetters = $("#game-letters")
