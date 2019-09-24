@@ -36,7 +36,10 @@ function initiateWords (){
 
 //Create variables for the scores
 wordsGuessed = 0;
+$("#words-guessed-text").append(wordsGuessed);
+
 guessesRemaining = 10;
+$("#guesses-remaining-text").append(guessesRemaining);
 
 ////////////////////////////NEW WORD FUNCTION
 // Create a function that will choose a new word
@@ -103,13 +106,16 @@ function chooseWord(){
         console.log($("#game-letter").length);
         
         //If the User Choice is the same as one of the letters, then display the letter(s)
-        for (i = 0; i < gameLetterArr.length; i++){
+        
 
+            //IF THE USER CHOICE IS CORRECT and the word has a space:
             if (gameLetterArr.includes(" ")&&(gameLetterArr.includes(userChoice))){
+                console.log("YOU GUESSED RIGHT! (space)")
 
-                lettersLeft--;
+                for (i = 0; i < gameLetterArr.length; i++){
+                    lettersLeft--;
 
-                if(userChoice === $("#letter-" + [i + 1]).attr("value")){
+                    if(userChoice === $("#letter-" + [i + 1]).attr("value")){
 
                     //Diminish the number of letters left to guess
                     lettersLeft--;
@@ -119,51 +125,68 @@ function chooseWord(){
                     $("#letter-" + [i + 1]).empty();
                     $("#letter-" + [i + 1]).append(gameLetterArr[i]);
 
-                    if(lettersLeft === 0){
-                        wordsGuessed++;
-                        //show the image and display additional information
-                        console.log("There are NO MORE LETTERS LEFT!")
+                        if(lettersLeft === 0){
+                            wordsGuessed++;
+                            //show the image and display additional information
+                            console.log("There are NO MORE LETTERS LEFT!")
 
+                        }
                     }
                 }
-            }else if (gameLetterArr.includes(userChoice)){
-                
-                if(userChoice === $("#letter-" + [i + 1]).attr("value")){
-
-                //Diminish the number of letters left to guess
-                lettersLeft--;
-                console.log("There are " + lettersLeft + " letters left to guess.")
-                
-                //empty the div
-                $("#letter-" + [i + 1]).empty();
-                $("#letter-" + [i + 1]).append(gameLetterArr[i]);
-
-                if(lettersLeft === 0){
-                    wordsGuessed++;
-                    //show the image and display additional information
-                    console.log("There are NO MORE LETTERS LEFT!")
-
-                    var infoImage = $("<img>");
-                    infoImage.attr("id", "current-image");
-                    infoImage.attr("url", wordArray[randomNumber].image);
-                    $("#info-image").append(infoImage);
-
-                    var infoText = $("<p>");
-                    infoText.attr("id", "info-text");
-                    infoText.append(wordArray[randomNumber].description);
-                    $("#info-text").append(infoText);
+                //If the user's choice is correct and the word doesn't have a space:
+            }else if (gameLetterArr.includes(userChoice)&&(gameLetterArr.includes(" ") === false)){
+                console.log("YOU GUESSED RIGHT!")
+                for (i = 0; i < gameLetterArr.length; i++){
+                    if(userChoice === $("#letter-" + [i + 1]).attr("value")){
                     
-                }
+                    
+
+                        //Diminish the number of letters left to guess
+                        lettersLeft--;
+                        console.log("There are " + lettersLeft + " letters left to guess.")
+
+                        //empty the div
+                        $("#letter-" + [i + 1]).empty();
+                        $("#letter-" + [i + 1]).append(gameLetterArr[i]);
+
+                            if(lettersLeft === 0){
+                                wordsGuessed++;
+                                //show the image and display additional information
+                                console.log("There are NO MORE LETTERS LEFT!")
+
+                                var infoImage = $("<img>");
+                                infoImage.attr("id", "current-image");
+                                infoImage.attr("url", wordArray[randomNumber].image);
+                                $("#info-image").append(infoImage);
+
+                                var infoText = $("<p>");
+                                infoText.attr("id", "info-text");
+                                infoText.append(wordArray[randomNumber].description);
+                                $("#info-text").append(infoText);
+                            
+                            }
+                    }
                 
+                }
+
+                //IF THE USER CHOICE IS WRONG
+            }else if (gameLetterArr.includes(userChoice) === false) {
+                guessesRemaining--;
+
+                $("#letters-guessed").append(userChoice);
+
+
+                if (guessesRemaining === 0){
+                    console.log("GAME OVER. YOU LOSE!");
                 }
             }
-        }
+
         
         
         
     
     
-    });
+    });//END OF DOCUMENT KEYUP
 
 };//END of ChooseWord Function\
 
