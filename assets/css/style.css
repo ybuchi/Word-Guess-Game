@@ -34,7 +34,7 @@
 .game-info {
     font-family: 'Indie Flower', cursive;
     font-weight: bold;
-<<<<<<< HEAD
+
 
 }
 
@@ -55,10 +55,27 @@
     border: dotted 2px gray;
     margin: 0px 10px 0px;
     font-size: 30px;
-=======
+}
+.game-letter{
+    display: inline-block;
+    margin: 0px 6px 0px;
+}
+.space{
+    display: inline-block;
+    margin: 0px 6px 0px;
 }
 
-#game-container{
-    text-align: center;
+/* Information displayed once the user has guessed a word */
+#extra-info{
+    overflow: auto;
+    border: solid 2px black;
 }
-
+#info-image{
+    display: inline-block;
+    width: 300px;
+}
+#info-text{
+    display: inline-block;
+    width: 300px;
+    text-align: left;
+}

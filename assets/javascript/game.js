@@ -1,172 +1,241 @@
 /////////////////////////////DECLARE GLOBAL VARIABLES
-/////////////////////////////////////////////////////
+/////////////////////////////
+$(document).ready(function(){
+    console.log("Ready for Action!")
+});
 
-//Create an array with all the words 
-var gameWords = ["football", "bayern munich", "ronaldinho", "champions league", "manchester united", "goal", "arjen robben"]
+//Create the global variables for elements on the HTML document:
+
+//The div that will hold the wrong letters guessed
+var currentLetters = $("#letters-guessed").text();
+console.log("The current letters are:" + currentLetters);
+
+//The div that will hold the word to be guessed:
+
+var gameWordDiv = $("#game-letters");
+
+//Create an Array that will contain the words, descriptions and images.
+
+wordArray = [];
+
+//Builds the words using a Constructor Function
+
+
+function Word(word, description, image){
+    this.word = word;
+    this.description = description;
+    this.image = image;
+
+}
+
+// Create a function that will initialize / Update the words that are in the game
+function initiateWords (){
+    var word1 = new Word("football", "While the history of football as we know it dates back to eigth century AD England, the origins of the game can actually be traced all the way back to the Chinese competitive game called 'cuju', or 'kick ball', which was actually very similar to modern football.", "assets/images/Chinese_Football.jpg");
+
+    var word2 = new Word("bayern munich", "Bayern Munich has won one UEFA Cup, on European Cup Winner's Cup, one UEFA Super Cup, one FIFA Club World Cup and two International Cups, making it one of the most successful European clubs international. Bayern plays its home games at the Allianz Arena after previously having played in the Olympic Stadium of Munich for thirty-three years.","assets/images/FC-Bayern-München-logo.png");
+
+    var word3 = new Word("ronaldinho", "Born Ronaldo de Assis Moreira, commonly known as Ronaldinho Gaucho, Ronaldinho is a former Brazilian footballer who mostly played as an attacking midfielder. Often regarded as one of the most brilliant footballers of his generation and one of the best of all time, he is well known for his incredible agility, creativity, and dance-like ability to use tricks and feints, no-look passes, and incredible free kicks.", "https://upload.wikimedia.org/wikipedia/commons/7/79/Ronaldinho_11feb2007.jpg" );
+
+    wordArray.push(word1, word2, word3);
+    console.log("The wordArray the was initiated is: " + JSON.stringify(wordArray));
+}
 
 //Create variables for the scores
 wordsGuessed = 0;
+$("#words-guessed-text").append(wordsGuessed);
+
 guessesRemaining = 10;
+$("#guesses-remaining-text").append(guessesRemaining);
 
-//Create variables for the document elements that we will be using
+////////////////////////////NEW WORD FUNCTION
+// Create a function that will choose a new word
 
-var currentWordDiv = document.getElementById("game-letters");
-var lettersGuessedDiv = document.getElementById("letters-guessed");
-
-//Create a function that will randomly choose one of these words
-function choseWord(targetArray){
-    
-    var randomWord = targetArray[Math.floor(Math.random()*targetArray.length)]
-    return randomWord
-}
+function chooseWord(){
 
 
-//Create a function that will clear the currenWord Div when the word is reset
-function clearBox(elementID)
-{
-    document.getElementById(elementID).innerHTML = "";
-}
+    //Fire Initiate Words
+    initiateWords();
 
-//Create a function that will reset a new word when a word is guessed
-function wordReset(){
+    //Randomly choose an object from the word object array
 
-    // Update the number of words guessed
+    //Gets a number between 1 and 3 (both inclusive)
+    var randomNumber = Math.floor((Math.random() * 3) + 1) -1;
+    console.log("The random number chosen by the computer is: " + randomNumber);
 
-    wordsGuessed++;
+    //Grab the word using the random number
+    var chosenWord = wordArray[randomNumber].word;
+    console.log(chosenWord);
+
+    //Split the word into an array of letters
+    var gameLetterArr = chosenWord.split("");
+    console.log("The array of letters for the chose word is: " + gameLetterArr);
+
+    //Create a variable to track the number of letters currently guessed:
+    var lettersLeft = gameLetterArr.length;
 
 
-    document.addEventListener("keyup", function(){
-    document.getElementById("words-guessed-text").innerHTML = "Words Guessed: " + wordsGuessed;
+    //For each character, create a div.
+    for (i = 0; i < gameLetterArr.length; i++){
+        
 
-    clearBox("game-letters");
-    clearBox("letters-guessed");
+        //IF THE CHARACTER IS A SPACE, then do not add underscore
+        if(gameLetterArr[i] === " "){
 
-    document.getElementById("letters-guessed").innerHTML = "Letters Guessed: "
+        //create a div and add the letter to it
+        var letterDiv = $("<div>");
+        letterDiv.attr("id", "spaceAt-" + [i + 1]);
+        letterDiv.addClass("space");
+        letterDiv.append("*");
 
-    choseWord(gameWords);
-    compChoice = choseWord(gameWords);
-    console.log("The computer's new choice is: " + compChoice)
-    
-    lettersRemaining = compChoice.length;
-    
-    for (i = 0; i < compChoice.length; i++){
-        if (compChoice[i] === " "){
-    
-            lettersRemaining--;
-    
-            underscoreDiv = document.createElement("div");
-            underscoreDiv.textContent = compChoice[i];
-            currentWordDiv.appendChild(underscoreDiv);
-    
-            underscoreDiv.setAttribute("class", "set-inline guessed")
-    
-        }else {
-    
-            underscoreDiv = document.createElement("div");
-            underscoreDiv.textContent = "_";
-            currentWordDiv.appendChild(underscoreDiv);
-    
-            underscoreDiv.setAttribute("class", "set-inline");
-            underscoreDiv.setAttribute("id", "underscore-" + [i])
+        //Append the div to the target area on the document
+        gameWordDiv.append(letterDiv);
+
+        //Decrease LettersLeft by One to take the space into account
+        lettersLeft--;
+
+        }else{
+
+        //create a div and add the letter to it
+        var letterDiv = $("<div>");
+        letterDiv.attr("id", "letter-" + [i + 1]);
+        letterDiv.attr("value", gameLetterArr[i]);
+        letterDiv.addClass("game-letter");
+        letterDiv.append("_");
+
+        //Append the div to the target area on the document
+        gameWordDiv.append(letterDiv);
         }
-    
-    }
-})
+    };//END of For Loop
 
-    
-}
+    //////////////////////////////////////////////////////////////////////
 
+    //Wait for each time the player presses a key
 
-///////////////////////////////////////////////Enter game initial setup
+    $(document).keyup(function(keypress){
 
-///INITIAL SETUP
+        //Record the User's choice
+        var userChoice = keypress.key;
+        console.log("The User Choice is: " + userChoice);
+        console.log($("#game-letter").length);
 
-//The computer choses a word and sets up the div containg the current word
-var compChoice = choseWord(gameWords);
-console.log("The computer's current choice is: " + compChoice)
+        
+        //If the User Choice is the same as one of the letters, then display the letter(s)
+        
 
-//Display the scores
-document.getElementById("words-guessed-text").innerHTML = "Words Guessed: " + wordsGuessed;
-document.getElementById("guesses-remaining-text").innerHTML = "Guesses Remaining: " + guessesRemaining;
+            //IF THE USER CHOICE IS CORRECT and the word has a space:
+            if (gameLetterArr.includes(" ")&&(gameLetterArr.includes(userChoice))){
+                console.log("YOU GUESSED RIGHT! (space)")
 
-var lettersRemaining = compChoice.length;
+                for (i = 0; i < gameLetterArr.length; i++){
+                    
 
-for (i = 0; i < compChoice.length; i++){
-    if (compChoice[i] === " "){
+                    if(userChoice === $("#letter-" + [i + 1]).attr("value") && userChoice !== $("#letter-" + [i + 1]).text()){
 
-        lettersRemaining--;
+                    //Diminish the number of letters left to guess
+                    lettersLeft--;
+                    console.log("There are " + lettersLeft + " letters left to guess.")
+                    
+                    //empty the div
+                    $("#letter-" + [i + 1]).empty();
+                    $("#letter-" + [i + 1]).append(gameLetterArr[i]);
 
-        underscoreDiv = document.createElement("div");
-        underscoreDiv.textContent = compChoice[i];
-        currentWordDiv.appendChild(underscoreDiv);
+                        if(lettersLeft === 0){
+                            wordsGuessed++;
+                            //show the image and display additional information
+                            console.log("There are NO MORE LETTERS LEFT!")
 
-        underscoreDiv.setAttribute("class", "set-inline guessed")
+                            var infoImage = $("<img>");
+                            infoImage.attr("id", "current-image");
+                            infoImage.attr("src", wordArray[randomNumber].image);
+                            infoImage.attr("style", "width: 150px")
+                            $("#info-image").append(infoImage);
 
-    }else {
+                            var infoText = $("<p>");
+                            infoText.attr("id", "info-text");
+                            infoText.append(wordArray[randomNumber].description);
+                            $("#info-text").append(infoText);
 
-        underscoreDiv = document.createElement("div");
-        underscoreDiv.textContent = "_";
-        currentWordDiv.appendChild(underscoreDiv);
+                        }
+                    }
+                }
+                //If the user's choice is correct and the word doesn't have a space:
+            }else if (gameLetterArr.includes(userChoice)&&(gameLetterArr.includes(" ") === false)){
+                console.log("YOU GUESSED RIGHT!")
+                for (i = 0; i < gameLetterArr.length; i++){
+                    if(userChoice === $("#letter-" + [i + 1]).attr("value") && userChoice !== $("#letter-" + [i + 1]).text()){
+                    
+                    
 
-        underscoreDiv.setAttribute("class", "set-inline");
-        underscoreDiv.setAttribute("id", "underscore-" + [i])
-    }
-}
+                        //Diminish the number of letters left to guess
+                        lettersLeft--;
+                        console.log("There are " + lettersLeft + " letters left to guess.")
 
+                        //empty the div
+                        $("#letter-" + [i + 1]).empty();
+                        $("#letter-" + [i + 1]).append(gameLetterArr[i]);
 
+                            if(lettersLeft === 0){
+                                wordsGuessed++;
+                                //show the image and display additional information
+                                console.log("There are NO MORE LETTERS LEFT!")
 
-//////////////////////////////////////////////////Enter Main Game Loop
+                                var infoImage = $("<img>");
+                                infoImage.attr("id", "current-image");
+                                infoImage.attr("src", wordArray[randomNumber].image);
+                                infoImage.attr("style", "width: 150px")
+                                $("#info-image").append(infoImage);
 
-    document.addEventListener("keyup", function(userChooses){
-
-        var userChoice = userChooses.key;
-
-        for (j = 0; j < compChoice.length; j++){
-
-            var targetUnderscores = document.getElementById("underscore-"+ [j])
-
-            if (userChoice === compChoice[j] && targetUnderscores.innerHTML === "_"){
-
-                targetUnderscores.innerHTML = userChoice;
-                targetUnderscores.setAttribute("class", "replaced");
-                lettersRemaining--;
-                console.log("Letters Remaining: "+ lettersRemaining);
-
-                if(lettersRemaining === 0){
-
-            
-
-                    wordReset();
-                    break;
-
+                                var infoText = $("<p>");
+                                infoText.attr("id", "info-text");
+                                infoText.append(wordArray[randomNumber].description);
+                                $("#info-text").append(infoText);
+                            
+                            }
+                    }
                 
-
                 }
 
-            }else if (compChoice.includes(userChoice) === false){
-
-                var letterCheckDiv = document.getElementById("wrong-user-choice" + userChoice);
-
-                if (letterCheckDiv === null){
+                //IF THE USER CHOICE IS WRONG
+            }else if (gameLetterArr.includes(userChoice) === false) {
                 
+
+
+                if(currentLetters.includes(userChoice) === false) {
+
                 guessesRemaining--;
-                document.getElementById("guesses-remaining-text").innerHTML = "Guesses Remaining: " + guessesRemaining;
-                console.log("Guesses remaining:" + guessesRemaining);
 
-                var wrongLetterDiv = document.createElement("div");
-                wrongLetterDiv.setAttribute("id", "wrong-user-choice" + userChoice);
-                wrongLetterDiv.textContent = userChoice;
 
-                lettersGuessedDiv.appendChild(wrongLetterDiv);
 
-                if (guessesRemaining === 0){
-                    document.write("GAME OVER");
-                }
-                
+                $("#letters-guessed").append(userChoice);
+                $("#guesses-remaining-text").empty();
+                $("#guesses-remaining-text").append("Guesses Remaining:  " + guessesRemaining);
+
+
+                    if (guessesRemaining === 0){
+                        console.log("GAME OVER. YOU LOSE!");
+                    }
                 }
             }
-        }
+
+        
+        
+        
+    
+    
+    });//END OF DOCUMENT KEYUP
+
+};//END of ChooseWord Function\
+
+
+/////////////GAME FUNCTIONALITY
+
+chooseWord();
 
 
 
-    })
+
+
+
+
+
+
