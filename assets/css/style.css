@@ -1,14 +1,30 @@
-.title-div {
-    font-family: 'Sigmar One', cursive;
-    color: blue;
-    margin: auto;
-
-    border: solid 1.5px black;
-    text-align: center;
-    text-shadow: 2px 2px black;
-    background: lightslategray;
+body{
+    background-image: url("../images/beanstalk-dark.png");
+    color: white;
 }
 
+.title-div {
+
+    margin: auto;
+
+    text-align: center;
+
+
+}
+#title-text{
+    color: gray;
+    text-shadow: 3px 4px gold;
+    font-family: 'Barriecito', cursive;
+    margin: auto;
+    font-size: 90px;
+    margin-top: 30px;
+}
+#title-container {
+    background-image: url("../images/jannes-glas-cuhQcfp3By4-unsplash.jpg");
+    height: 200px;
+    background-size: 1100px;
+    border: solid 2px grey;
+}
 
 .set-inline {
     margin-left: 3px;
@@ -26,8 +42,10 @@
 
 
 .game-description {
-    font-family: 'Indie Flower', cursive;
+    font-family: 'Barriecito', cursive;
+    font-size: 20px;
     color: red;
+    letter-spacing: 6px;
 
 }
 
@@ -52,8 +70,7 @@
 
 #game-letters {
     font-weight: bold;
-    border: dotted 2px gray;
-    margin: 0px 10px 0px;
+    margin: 30px 10px 30px;
     font-size: 30px;
 }
 .game-letter{
@@ -78,4 +95,11 @@
     display: inline-block;
     width: 300px;
     text-align: left;
+
+}
+
+#gameWord-container{
+    border: solid 3px gold;
+    padding: 20px 10px 20px;
+    margin: 10px 200px 10px;
 }
