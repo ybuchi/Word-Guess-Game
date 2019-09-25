@@ -6,6 +6,10 @@ $(document).ready(function(){
 
 //Create the global variables for elements on the HTML document:
 
+//The div that will hold the wrong letters guessed
+var currentLetters = $("#letters-guessed").text();
+console.log("The current letters are:" + currentLetters);
+
 //The div that will hold the word to be guessed:
 
 var gameWordDiv = $("#game-letters");
@@ -24,9 +28,9 @@ function Word(word, description, image){
 
 // Create a function that will initialize / Update the words that are in the game
 function initiateWords (){
-    var word1 = new Word("football", "While the history of football as we know it dates back to eigth century AD England, the origins of the game can actually be traced all the way back to the Chinese competitive game called 'cuju', or 'kick ball', which was actually very similar to modern football.", "https://upload.wikimedia.org/wikipedia/commons/2/21/One_Hundred_Children_in_the_Long_Spring.jpg");
+    var word1 = new Word("football", "While the history of football as we know it dates back to eigth century AD England, the origins of the game can actually be traced all the way back to the Chinese competitive game called 'cuju', or 'kick ball', which was actually very similar to modern football.", "assets/images/Chinese_Football.jpg");
 
-    var word2 = new Word("bayern munich", "Bayern Munich has won one UEFA Cup, on European Cup Winner's Cup, one UEFA Super Cup, one FIFA Club World Cup and two International Cups, making it one of the most successful European clubs international. Bayern plays its home games at the Allianz Arena after previously having played in the Olympic Stadium of Munich for thirty-three years.","https://upload.wikimedia.org/wikipedia/commons/1/1b/FC_Bayern_M%C3%BCnchen_logo_%282017%29.svg");
+    var word2 = new Word("bayern munich", "Bayern Munich has won one UEFA Cup, on European Cup Winner's Cup, one UEFA Super Cup, one FIFA Club World Cup and two International Cups, making it one of the most successful European clubs international. Bayern plays its home games at the Allianz Arena after previously having played in the Olympic Stadium of Munich for thirty-three years.","assets/images/FC-Bayern-München-logo.png");
 
     var word3 = new Word("ronaldinho", "Born Ronaldo de Assis Moreira, commonly known as Ronaldinho Gaucho, Ronaldinho is a former Brazilian footballer who mostly played as an attacking midfielder. Often regarded as one of the most brilliant footballers of his generation and one of the best of all time, he is well known for his incredible agility, creativity, and dance-like ability to use tricks and feints, no-look passes, and incredible free kicks.", "https://upload.wikimedia.org/wikipedia/commons/7/79/Ronaldinho_11feb2007.jpg" );
 
@@ -46,6 +50,7 @@ $("#guesses-remaining-text").append(guessesRemaining);
 
 function chooseWord(){
 
+
     //Fire Initiate Words
     initiateWords();
 
@@ -63,6 +68,10 @@ function chooseWord(){
     var gameLetterArr = chosenWord.split("");
     console.log("The array of letters for the chose word is: " + gameLetterArr);
 
+    //Create a variable to track the number of letters currently guessed:
+    var lettersLeft = gameLetterArr.length;
+
+
     //For each character, create a div.
     for (i = 0; i < gameLetterArr.length; i++){
         
@@ -79,6 +88,9 @@ function chooseWord(){
         //Append the div to the target area on the document
         gameWordDiv.append(letterDiv);
 
+        //Decrease LettersLeft by One to take the space into account
+        lettersLeft--;
+
         }else{
 
         //create a div and add the letter to it
@@ -94,8 +106,7 @@ function chooseWord(){
     };//END of For Loop
 
     //////////////////////////////////////////////////////////////////////
-    //Create a variable to track the number of letters currently guessed:
-    var lettersLeft = gameLetterArr.length;
+
     //Wait for each time the player presses a key
 
     $(document).keyup(function(keypress){
@@ -104,6 +115,7 @@ function chooseWord(){
         var userChoice = keypress.key;
         console.log("The User Choice is: " + userChoice);
         console.log($("#game-letter").length);
+
         
         //If the User Choice is the same as one of the letters, then display the letter(s)
         
@@ -113,9 +125,9 @@ function chooseWord(){
                 console.log("YOU GUESSED RIGHT! (space)")
 
                 for (i = 0; i < gameLetterArr.length; i++){
-                    lettersLeft--;
+                    
 
-                    if(userChoice === $("#letter-" + [i + 1]).attr("value")){
+                    if(userChoice === $("#letter-" + [i + 1]).attr("value") && userChoice !== $("#letter-" + [i + 1]).text()){
 
                     //Diminish the number of letters left to guess
                     lettersLeft--;
@@ -130,6 +142,17 @@ function chooseWord(){
                             //show the image and display additional information
                             console.log("There are NO MORE LETTERS LEFT!")
 
+                            var infoImage = $("<img>");
+                            infoImage.attr("id", "current-image");
+                            infoImage.attr("src", wordArray[randomNumber].image);
+                            infoImage.attr("style", "width: 150px")
+                            $("#info-image").append(infoImage);
+
+                            var infoText = $("<p>");
+                            infoText.attr("id", "info-text");
+                            infoText.append(wordArray[randomNumber].description);
+                            $("#info-text").append(infoText);
+
                         }
                     }
                 }
@@ -137,7 +160,7 @@ function chooseWord(){
             }else if (gameLetterArr.includes(userChoice)&&(gameLetterArr.includes(" ") === false)){
                 console.log("YOU GUESSED RIGHT!")
                 for (i = 0; i < gameLetterArr.length; i++){
-                    if(userChoice === $("#letter-" + [i + 1]).attr("value")){
+                    if(userChoice === $("#letter-" + [i + 1]).attr("value") && userChoice !== $("#letter-" + [i + 1]).text()){
                     
                     
 
@@ -156,7 +179,8 @@ function chooseWord(){
 
                                 var infoImage = $("<img>");
                                 infoImage.attr("id", "current-image");
-                                infoImage.attr("url", wordArray[randomNumber].image);
+                                infoImage.attr("src", wordArray[randomNumber].image);
+                                infoImage.attr("style", "width: 150px")
                                 $("#info-image").append(infoImage);
 
                                 var infoText = $("<p>");
@@ -171,13 +195,23 @@ function chooseWord(){
 
                 //IF THE USER CHOICE IS WRONG
             }else if (gameLetterArr.includes(userChoice) === false) {
+                
+
+
+                if(currentLetters.includes(userChoice) === false) {
+
                 guessesRemaining--;
 
+
+
                 $("#letters-guessed").append(userChoice);
+                $("#guesses-remaining-text").empty();
+                $("#guesses-remaining-text").append("Guesses Remaining:  " + guessesRemaining);
 
 
-                if (guessesRemaining === 0){
-                    console.log("GAME OVER. YOU LOSE!");
+                    if (guessesRemaining === 0){
+                        console.log("GAME OVER. YOU LOSE!");
+                    }
                 }
             }
 
