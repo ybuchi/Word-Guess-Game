@@ -20,10 +20,12 @@ wordArray = [];
 
 //Builds the words using a Constructor Function
 
+
 function Word(word, description, image){
     this.word = word;
     this.description = description;
     this.image = image;
+
 }
 
 // Create a function that will initialize / Update the words that are in the game
