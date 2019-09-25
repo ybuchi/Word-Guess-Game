@@ -49,23 +49,16 @@ body{
 
 }
 
-.game-info {
-    font-family: 'Indie Flower', cursive;
-    font-weight: bold;
 
 
+#ltrs-guessed{
+    background-color: rgba(128, 128, 128, 0.356);
 }
 
-.game-results-div {
-    border: solid;
-    width: 40%;
-    text-align: center;
-    box-shadow: 10px 10px 5px grey;
-    background-image: url("/Users/Yannik/Bootcamp/Homework3/Word-Guess-Game/assets/images/funky-lines.png");
-}
 
 #letters-guessed {
     height: 200px;
+    color: gold;
 }
 
 #game-letters {
@@ -90,16 +83,37 @@ body{
 #info-image{
     display: inline-block;
     width: 300px;
+    height: 200px;
+    margin: 0px 10px 0px;
+    padding: 10px 10px 10px;
+    vertical-align: middle;
 }
+
 #info-text{
     display: inline-block;
     width: 300px;
     text-align: left;
+    vertical-align: middle;
 
 }
 
+/* the tow main divs in the game */
+.game-info {
+    font-family: 'Barriecito', cursive;
+    font-weight: bold;
+    letter-spacing: 7px;
+
+    border: solid 2px gray;
+    padding: 20px 10px 20px;
+    margin: 10px 10px 10px;
+    display: inline-block;
+}
 #gameWord-container{
     border: solid 3px gold;
     padding: 20px 10px 20px;
-    margin: 10px 200px 10px;
+    display: inline-block;
+    margin: 40px 10px 10px;
 }
+
+/* handles the additional information once the user has guessed a word */
+
